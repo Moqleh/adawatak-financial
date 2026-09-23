@@ -7,6 +7,12 @@ on:
         description: 'Branch to generate lockfile on'
         required: true
         default: 'feature/foundation-calculators'
+  push:
+    branches:
+      - feature/foundation-calculators
+    paths:
+      - '.github/workflows/generate-lockfile.yml'
+      - 'package.json'
 
 permissions:
   contents: write
@@ -15,10 +21,19 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
+      - name: Resolve branch
+        id: br
+        run: |
+          BRANCH="${{ inputs.branch }}"
+          if [ -z "$BRANCH" ]; then
+            BRANCH="${{ github.ref_name }}"
+          fi
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
       - name: Checkout target branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ steps.br.outputs.branch }}
           fetch-depth: 1
 
       - name: Setup Node
@@ -47,4 +62,4 @@ jobs:
             exit 0
           fi
           git commit -m "chore: generate package-lock.json via npm in CI"
-          git push origin HEAD:${{ inputs.branch }}
+          git push origin HEAD:${{ steps.br.outputs.branch }}
