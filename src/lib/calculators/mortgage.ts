@@ -1,0 +1,3 @@
+import{calculatePersonalLoan}from'./personal-loan';import{nonNegative,positive}from'./validation';
+export type MortgageInput={propertyPrice:number;downPayment:number;annualRate:number;months:number};
+export function calculateMortgage(input:MortgageInput){positive('propertyPrice',input.propertyPrice);nonNegative('downPayment',input.downPayment);if(input.downPayment>=input.propertyPrice)throw new RangeError('downPayment must be less than propertyPrice');const loanAmount=input.propertyPrice-input.downPayment;return{loanAmount,ltv:loanAmount/input.propertyPrice*100,...calculatePersonalLoan({principal:loanAmount,annualRate:input.annualRate,months:input.months})}}
