@@ -46,6 +46,14 @@ describe('calcCreditCardPayoff — PAYMENT_BELOW_INTEREST',()=>{
       aprPercent,
       monthlyPayment:241,
     });
+    const principalSum=result.payoffSchedule.reduce((sum,row)=>sum.plus(row.principal),ZERO);
+    const difference=M(balance).minus(principalSum);
+    console.log('--- CREDIT CARD DIAGNOSTIC ---');
+    console.log('Original Balance:',M(balance).toString());
+    console.log('Principal Sum:   ',principalSum.toString());
+    console.log('Difference:      ',difference.toString());
+    console.log('Months count:    ',result.monthsToPayoff);
+    console.log('Last Row Closing:',result.payoffSchedule.at(-1)?.closingBalance.toString());
     expect(result.monthsToPayoff).toBeLessThanOrEqual(1200);
     expectScheduleInvariants(result);
   });
