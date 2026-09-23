@@ -38,21 +38,9 @@ function assertScheduleInvariants(
 
     expect(row.payment.equals(row.principal.plus(row.interest))).toBe(true);
 
-    const reconstructedOpening = row.principal.plus(row.closingBalance);
-    const isMatch = row.openingBalance.equals(reconstructedOpening);
-
-    if (!isMatch) {
-      console.log("=== FIRST FAILING ROW DIAGNOSTICS ===", {
-        month: row.month,
-        openingBalance: row.openingBalance.toString(),
-        principal: row.principal.toString(),
-        closingBalance: row.closingBalance.toString(),
-        sum: reconstructedOpening.toString(),
-        diff: row.openingBalance.minus(reconstructedOpening).toString(),
-      });
-    }
-
-    expect(isMatch).toBe(true);
+    expect(
+      row.closingBalance.equals(row.openingBalance.minus(row.principal)),
+    ).toBe(true);
 
     sumPrincipal = sumPrincipal.plus(row.principal);
   }
