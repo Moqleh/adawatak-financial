@@ -1,0 +1,1 @@
+import {getTranslations,setRequestLocale} from 'next-intl/server';export default async function Tools({params}:{params:Promise<{locale:string}>}){const {locale}=await params;setRequestLocale(locale);const t=await getTranslations('tools');return <section className="hero"><div className="container"><h1>{t('title')}</h1><p className="lead">{t('description')}</p></div></section>}
