@@ -1,6 +1,6 @@
 import {ZERO,ONE,type Money} from '@/lib/money';
 import {CalculatorError} from '../errors';
-export interface AmortizationRow{period:number;payment:Money;interest:Money;principal:Money;balance:Money}
+export interface AmortizationRow{month:number;openingBalance:Money;payment:Money;interest:Money;principal:Money;closingBalance:Money}
 export interface LoanCoreInput{principal:Money;monthlyRate:Money;months:number}
 export interface LoanCoreResult{monthlyPayment:Money;totalPayment:Money;totalInterest:Money;schedule:AmortizationRow[]}
 export function calcLoanCore({principal,monthlyRate,months}:LoanCoreInput):LoanCoreResult{
@@ -16,15 +16,18 @@ export function calcLoanCore({principal,monthlyRate,months}:LoanCoreInput):LoanC
 function buildSchedule(principal:Money,monthlyRate:Money,months:number,payment:Money):AmortizationRow[]{
  const rows:AmortizationRow[]=[];let balance=principal;
  for(let i=1;i<months;i++){
-  const interest=balance.times(monthlyRate);
+  const openingBalance=balance;
+  const interest=openingBalance.times(monthlyRate);
   const principalPart=payment.minus(interest);
   if(principalPart.isNegative())throw new CalculatorError('NEGATIVE_AMORTIZATION',{period:i,payment:payment.toString(),interest:interest.toString()});
-  balance=balance.minus(principalPart);
-  rows.push({period:i,payment,interest,principal:principalPart,balance});
+  const closingBalance=openingBalance.minus(principalPart);
+  rows.push({month:i,openingBalance,payment,interest,principal:principalPart,closingBalance});
+  balance=closingBalance;
  }
- const interest=balance.times(monthlyRate);
- const principalPart=balance;
+ const openingBalance=balance;
+ const interest=openingBalance.times(monthlyRate);
+ const principalPart=openingBalance;
  const finalPayment=principalPart.plus(interest);
- rows.push({period:months,payment:finalPayment,interest,principal:principalPart,balance:ZERO});
+ rows.push({month:months,openingBalance,payment:finalPayment,interest,principal:principalPart,closingBalance:ZERO});
  return rows;
 }
