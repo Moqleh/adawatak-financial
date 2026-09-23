@@ -1,0 +1,2 @@
+import {getTranslations} from 'next-intl/server';import {Link} from '@/i18n/navigation';import LanguageSwitcher from './LanguageSwitcher';
+export default async function Header(){const t=await getTranslations();return <header className="header"><div className="container header-inner"><Link href="/" className="brand">{t('brand')}</Link><nav className="nav"><Link href="/">{t('nav.home')}</Link><Link href="/tools">{t('nav.tools')}</Link><LanguageSwitcher/></nav></div></header>}
