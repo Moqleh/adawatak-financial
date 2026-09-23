@@ -1,0 +1,3 @@
+export type ToolId='personal-loan'|'mortgage'|'auto-finance'|'credit-card'|'compound-savings'|'retirement'|'inflation'|'zakat'|'vat'|'gold'|'currency-converter'|'markets';
+export const tools=[{id:'personal-loan',category:'financing'},{id:'mortgage',category:'financing'},{id:'auto-finance',category:'financing'},{id:'credit-card',category:'debt'},{id:'compound-savings',category:'investment'},{id:'retirement',category:'investment'},{id:'inflation',category:'planning'},{id:'zakat',category:'zakat-tax'},{id:'vat',category:'zakat-tax'},{id:'gold',category:'metals'},{id:'currency-converter',category:'markets'},{id:'markets',category:'markets'}] as const;
+export const toolHref=(id:ToolId)=>('/tools/'+id) as const;
