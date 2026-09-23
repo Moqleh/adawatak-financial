@@ -89,7 +89,20 @@ describe("calcLoanCore — schedule invariants", () => {
       sumInterest = sumInterest.plus(row.interest);
     }
 
-    expect(sumPayment.equals(sumPrincipal.plus(sumInterest))).toBe(true);
+    const reconstructedTotalPayment = sumPrincipal.plus(sumInterest);
+    const isTotalPaymentMatch = sumPayment.equals(reconstructedTotalPayment);
+
+    if (!isTotalPaymentMatch) {
+      console.log("=== TOTALS INVARIANT DIAGNOSTICS ===", {
+        sumPayment: sumPayment.toString(),
+        sumPrincipal: sumPrincipal.toString(),
+        sumInterest: sumInterest.toString(),
+        sumPrincipalPlusInterest: reconstructedTotalPayment.toString(),
+        diff: sumPayment.minus(reconstructedTotalPayment).toString(),
+      });
+    }
+
+    expect(isTotalPaymentMatch).toBe(true);
   });
 });
 
