@@ -36,7 +36,21 @@ function assertScheduleInvariants(
       ).toBe(true);
     }
 
-    expect(row.payment.equals(row.principal.plus(row.interest))).toBe(true);
+    const reconstructedPayment = row.principal.plus(row.interest);
+    const isPaymentMatch = row.payment.equals(reconstructedPayment);
+
+    if (!isPaymentMatch) {
+      console.log("=== FIRST FAILING PAYMENT DIAGNOSTICS ===", {
+        month: row.month,
+        payment: row.payment.toString(),
+        principal: row.principal.toString(),
+        interest: row.interest.toString(),
+        sum: reconstructedPayment.toString(),
+        diff: row.payment.minus(reconstructedPayment).toString(),
+      });
+    }
+
+    expect(isPaymentMatch).toBe(true);
 
     expect(
       row.closingBalance.equals(row.openingBalance.minus(row.principal)),
