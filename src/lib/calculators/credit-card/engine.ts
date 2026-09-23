@@ -63,7 +63,20 @@ function buildFixedPaymentSchedule(
     const openingBalance=balance;
     const interest=openingBalance.times(monthlyRate);
     const amountDue=openingBalance.plus(interest);
-    const payment=monthlyPayment.greaterThanOrEqualTo(amountDue)?amountDue:monthlyPayment;
+
+    if(monthlyPayment.greaterThanOrEqualTo(amountDue)){
+      rows.push({
+        month,
+        openingBalance,
+        payment:amountDue,
+        interest,
+        principal:openingBalance,
+        closingBalance:ZERO,
+      });
+      return rows;
+    }
+
+    const payment=monthlyPayment;
     const principalPart=payment.minus(interest);
 
     if(principalPart.lessThanOrEqualTo(ZERO)){
@@ -74,7 +87,7 @@ function buildFixedPaymentSchedule(
       });
     }
 
-    const closingBalance=amountDue.minus(payment);
+    const closingBalance=openingBalance.minus(principalPart);
     rows.push({
       month,
       openingBalance,
@@ -84,7 +97,6 @@ function buildFixedPaymentSchedule(
       closingBalance,
     });
 
-    if(closingBalance.isZero())return rows;
     balance=closingBalance;
   }
 
