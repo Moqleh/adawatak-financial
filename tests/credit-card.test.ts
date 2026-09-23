@@ -17,7 +17,13 @@ function expectScheduleInvariants(result:ReturnType<typeof calcCreditCardPayoff>
   for(const row of result.payoffSchedule){
     expect(row.closingBalance.equals(row.openingBalance.minus(row.principal))).toBe(true);
   }
-  expect(result.totalPaid.equals(M(balance).plus(result.totalInterest))).toBe(true);
+  const totalPaidCalculated=M(balance).plus(result.totalInterest);
+  const diffTotalPaid=result.totalPaid.minus(totalPaidCalculated);
+  console.log('--- TOTAL PAID IDENTITY DIAGNOSTIC ---');
+  console.log('totalPaid (Engine):    ',result.totalPaid.toString());
+  console.log('balance + totalInterest:',totalPaidCalculated.toString());
+  console.log('Difference:            ',diffTotalPaid.toString());
+  expect(result.totalPaid.equals(totalPaidCalculated)).toBe(true);
 }
 
 describe('calcCreditCardPayoff — PAYMENT_BELOW_INTEREST',()=>{
