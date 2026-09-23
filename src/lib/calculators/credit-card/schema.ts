@@ -13,12 +13,12 @@ export const CreditCardPayoffInputSchema=z.discriminatedUnion('mode',[
     ...common,
     mode:z.literal('FIXED_PAYMENT'),
     monthlyPayment:finite.positive(),
-  }),
+  }).strict(),
   z.object({
     ...common,
     mode:z.literal('TARGET_TIMEFRAME'),
     targetMonths:z.number().int().positive().max(600),
-  }),
+  }).strict(),
 ]);
 
 export type CreditCardPayoffInput=z.infer<typeof CreditCardPayoffInputSchema>;
