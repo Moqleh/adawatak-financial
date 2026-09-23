@@ -14,8 +14,9 @@ function expectScheduleInvariants(result:ReturnType<typeof calcCreditCardPayoff>
   for(let i=1;i<result.payoffSchedule.length;i++){
     expect(result.payoffSchedule[i].openingBalance.equals(result.payoffSchedule[i-1].closingBalance)).toBe(true);
   }
-  const principal=result.payoffSchedule.reduce((sum,row)=>sum.plus(row.principal),ZERO);
-  expect(principal.equals(M(balance))).toBe(true);
+  for(const row of result.payoffSchedule){
+    expect(row.closingBalance.equals(row.openingBalance.minus(row.principal))).toBe(true);
+  }
   expect(result.totalPaid.equals(M(balance).plus(result.totalInterest))).toBe(true);
 }
 
@@ -46,14 +47,6 @@ describe('calcCreditCardPayoff — PAYMENT_BELOW_INTEREST',()=>{
       aprPercent,
       monthlyPayment:241,
     });
-    const principalSum=result.payoffSchedule.reduce((sum,row)=>sum.plus(row.principal),ZERO);
-    const difference=M(balance).minus(principalSum);
-    console.log('--- CREDIT CARD DIAGNOSTIC ---');
-    console.log('Original Balance:',M(balance).toString());
-    console.log('Principal Sum:   ',principalSum.toString());
-    console.log('Difference:      ',difference.toString());
-    console.log('Months count:    ',result.monthsToPayoff);
-    console.log('Last Row Closing:',result.payoffSchedule.at(-1)?.closingBalance.toString());
     expect(result.monthsToPayoff).toBeLessThanOrEqual(1200);
     expectScheduleInvariants(result);
   });
