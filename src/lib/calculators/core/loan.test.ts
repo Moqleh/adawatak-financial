@@ -72,37 +72,24 @@ describe("calcLoanCore — schedule invariants", () => {
     });
   }
 
-  it("Σ payment = Σ principal + Σ interest", () => {
-    const { schedule } = calcLoanCore({
+  it("result totals match schedule totals", () => {
+    const result = calcLoanCore({
       principal: M("250000"),
       monthlyRate: monthly("6.5"),
       months: 240,
     });
 
-    let sumPayment = new Decimal(0);
-    let sumPrincipal = new Decimal(0);
-    let sumInterest = new Decimal(0);
+    const scheduleTotalPayment = result.schedule.reduce(
+      (sum, row) => sum.plus(row.payment),
+      M("0"),
+    );
+    const scheduleTotalInterest = result.schedule.reduce(
+      (sum, row) => sum.plus(row.interest),
+      M("0"),
+    );
 
-    for (const row of schedule) {
-      sumPayment = sumPayment.plus(row.payment);
-      sumPrincipal = sumPrincipal.plus(row.principal);
-      sumInterest = sumInterest.plus(row.interest);
-    }
-
-    const reconstructedTotalPayment = sumPrincipal.plus(sumInterest);
-    const isTotalPaymentMatch = sumPayment.equals(reconstructedTotalPayment);
-
-    if (!isTotalPaymentMatch) {
-      console.log("=== TOTALS INVARIANT DIAGNOSTICS ===", {
-        sumPayment: sumPayment.toString(),
-        sumPrincipal: sumPrincipal.toString(),
-        sumInterest: sumInterest.toString(),
-        sumPrincipalPlusInterest: reconstructedTotalPayment.toString(),
-        diff: sumPayment.minus(reconstructedTotalPayment).toString(),
-      });
-    }
-
-    expect(isTotalPaymentMatch).toBe(true);
+    expect(result.totalPayment.equals(scheduleTotalPayment)).toBe(true);
+    expect(result.totalInterest.equals(scheduleTotalInterest)).toBe(true);
   });
 });
 
