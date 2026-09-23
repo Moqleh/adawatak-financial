@@ -1,3 +1,19 @@
-import{calculatePersonalLoan}from'./personal-loan';import{nonNegative,positive}from'./validation';
-export type MortgageInput={propertyPrice:number;downPayment:number;annualRate:number;months:number};
-export function calculateMortgage(input:MortgageInput){positive('propertyPrice',input.propertyPrice);nonNegative('downPayment',input.downPayment);if(input.downPayment>=input.propertyPrice)throw new RangeError('downPayment must be less than propertyPrice');const loanAmount=input.propertyPrice-input.downPayment;return{loanAmount,ltv:loanAmount/input.propertyPrice*100,...calculatePersonalLoan({principal:loanAmount,annualRate:input.annualRate,months:input.months})}}
+import {M,toDTO,type Money} from '@/lib/money';
+import {MortgageInputSchema,type MortgageInput} from './schemas';
+import {CalculatorError} from './errors';
+import {calcLoanCore,type AmortizationRow} from './core/loan';
+export interface MortgageResult{loanAmount:Money;ltv:Money;monthlyPayment:Money;totalPayment:Money;totalInterest:Money;schedule:AmortizationRow[]}
+export interface MortgageDTO{loanAmount:string;ltv:string;monthlyPayment:string;totalPayment:string;totalInterest:string;schedule:Array<{period:number;payment:string;interest:string;principal:string;balance:string}>}
+export function calcMortgage(input:MortgageInput):MortgageResult{
+ const v=MortgageInputSchema.parse(input);
+ if(v.downPayment>=v.propertyPrice)throw new CalculatorError('DOWN_PAYMENT_EXCEEDS_PRICE',{propertyPrice:v.propertyPrice,downPayment:v.downPayment});
+ const loanAmount=M(v.propertyPrice).minus(v.downPayment);
+ const ltv=loanAmount.div(v.propertyPrice);
+ const loan=calcLoanCore({principal:loanAmount,monthlyRate:M(v.annualRatePercent).div(100).div(12),months:v.termMonths});
+ return{loanAmount,ltv,...loan};
+}
+/** @deprecated Use calcMortgage. */
+export function calculateMortgage(input:{propertyPrice:number;downPayment:number;annualRate:number;months:number}):MortgageResult{
+ return calcMortgage({propertyPrice:input.propertyPrice,downPayment:input.downPayment,annualRatePercent:input.annualRate,termMonths:input.months});
+}
+export function toMortgageDTO(r:MortgageResult):MortgageDTO{return{loanAmount:toDTO(r.loanAmount),ltv:toDTO(r.ltv),monthlyPayment:toDTO(r.monthlyPayment),totalPayment:toDTO(r.totalPayment),totalInterest:toDTO(r.totalInterest),schedule:r.schedule.map(row=>({period:row.period,payment:toDTO(row.payment),interest:toDTO(row.interest),principal:toDTO(row.principal),balance:toDTO(row.balance)}))}}
