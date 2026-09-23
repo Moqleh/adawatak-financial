@@ -1,2 +1,8 @@
-import{describe,expect,it}from'vitest';import{calculatePersonalLoan}from'@/lib/calculators/personal-loan';
-describe('personal loan',()=>{it('handles zero rate',()=>{const r=calculatePersonalLoan({principal:12000,annualRate:0,months:12});expect(r.monthlyPayment).toBeCloseTo(1000);expect(r.totalInterest).toBeCloseTo(0);expect(r.schedule.at(-1)?.closingBalance).toBeCloseTo(0)});it('preserves principal',()=>{const r=calculatePersonalLoan({principal:100000,annualRate:6,months:60});expect(r.schedule.reduce((s,x)=>s+x.principal,0)).toBeCloseTo(100000,6);expect(r.totalPayment).toBeCloseTo(100000+r.totalInterest,6)});it('rejects invalid input',()=>expect(()=>calculatePersonalLoan({principal:-1,annualRate:5,months:12})).toThrow())});
+import {describe,it,expect} from 'vitest';import {calcPersonalLoan} from '../src/lib/calculators/personal-loan';import {M,ZERO,formatCurrency,nearlyEqual,isZero,TOLERANCE} from '../src/lib/money';
+describe('calcPersonalLoan',()=>{const base={principal:100000,annualRatePercent:5,termMonths:60};
+it('principal invariant',()=>{const r=calcPersonalLoan(base);const sum=r.schedule.reduce((s,row)=>s.plus(row.principal),ZERO);expect(nearlyEqual(sum,M(base.principal))).toBe(true)});
+it('final balance',()=>{const r=calcPersonalLoan(base);expect(isZero(r.schedule.at(-1)!.balance,TOLERANCE)).toBe(true)});
+it('payment identity',()=>{const r=calcPersonalLoan(base);expect(nearlyEqual(r.totalPayment,M(base.principal).plus(r.totalInterest))).toBe(true)});
+it('zero rate',()=>{const r=calcPersonalLoan({principal:12000,annualRatePercent:0,termMonths:12});expect(formatCurrency(r.monthlyPayment)).toBe('1000.00');expect(formatCurrency(r.totalInterest)).toBe('0.00')});
+it.each([{principal:-1,annualRatePercent:5,termMonths:12},{principal:NaN,annualRatePercent:5,termMonths:12},{principal:Infinity,annualRatePercent:5,termMonths:12},{principal:1000,annualRatePercent:5,termMonths:12.5},{principal:1000,annualRatePercent:150,termMonths:12}])('rejects invalid input %#',input=>expect(()=>calcPersonalLoan(input)).toThrow());
+});
