@@ -1,0 +1,2 @@
+import type{ReactNode}from'react';
+export function CalculatorShell({title,description,children,results}:{title:string;description?:string;children:ReactNode;results?:ReactNode}){return <div className="calculator-shell"><header><h1>{title}</h1>{description&&<p>{description}</p>}</header><div className="calculator-grid"><div className="calculator-form">{children}</div>{results&&<aside className="calculator-results" aria-live="polite">{results}</aside>}</div></div>}
