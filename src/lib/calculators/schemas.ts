@@ -7,7 +7,14 @@ export const PersonalLoanInputSchema=z.object({principal:finite.positive(),annua
 export type PersonalLoanInput=z.infer<typeof PersonalLoanInputSchema>;
 export const MortgageInputSchema=z.object({propertyPrice:finite.positive(),downPayment:nonNeg,annualRatePercent:ratePct,termMonths:z.number().int().positive().max(600)}).refine((data)=>data.downPayment<data.propertyPrice,{message:'DOWN_PAYMENT_MUST_BE_LESS_THAN_PRICE',path:['downPayment']});
 export type MortgageInput=z.infer<typeof MortgageInputSchema>;
-export const CompoundSavingsInputSchema=z.object({initialAmount:nonNeg,monthlyContribution:nonNeg,annualReturnPercent:signedRatePct,years:z.number().int().positive().max(100)});
+export const CompoundSavingsInputSchema=z.object({
+ initialAmount:nonNeg,
+ monthlyContribution:nonNeg,
+ annualReturnPercent:signedRatePct,
+ years:z.number().int().positive().max(100),
+ depositTiming:z.enum(['BEGINNING','END']).default('END'),
+ compoundingFrequency:z.enum(['MONTHLY','QUARTERLY','SEMI_ANNUALLY','ANNUALLY']).default('MONTHLY'),
+}).strict();
 export type CompoundSavingsInput=z.infer<typeof CompoundSavingsInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
