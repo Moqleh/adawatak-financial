@@ -15,7 +15,8 @@ export const CompoundSavingsInputSchema=z.object({
  depositTiming:z.enum(['BEGINNING','END']).default('END'),
  compoundingFrequency:z.enum(['MONTHLY','QUARTERLY','SEMI_ANNUALLY','ANNUALLY']).default('MONTHLY'),
 }).strict();
-export type CompoundSavingsInput=z.infer<typeof CompoundSavingsInputSchema>;
+export type CompoundSavingsInput=z.input<typeof CompoundSavingsInputSchema>;
+export type CompoundSavingsParsedInput=z.output<typeof CompoundSavingsInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
