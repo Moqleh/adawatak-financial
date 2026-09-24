@@ -39,6 +39,28 @@ export const InflationInputSchema=z.object({
 }).strict();
 export type InflationInput=z.input<typeof InflationInputSchema>;
 export type InflationParsedInput=z.output<typeof InflationInputSchema>;
+export const PercentOfInputSchema=z.object({
+ mode:z.literal('PERCENT_OF'),
+ percentage:finite,
+ value:finite,
+}).strict();
+export const WhatPercentInputSchema=z.object({
+ mode:z.literal('WHAT_PERCENT'),
+ part:finite,
+ total:finite.refine((value)=>value!==0,{message:'Total cannot be zero in WHAT_PERCENT mode'}),
+}).strict();
+export const PercentChangeInputSchema=z.object({
+ mode:z.literal('PERCENT_CHANGE'),
+ fromValue:finite.refine((value)=>value!==0,{message:'From value cannot be zero in PERCENT_CHANGE mode'}),
+ toValue:finite,
+}).strict();
+export const PercentageInputSchema=z.discriminatedUnion('mode',[
+ PercentOfInputSchema,
+ WhatPercentInputSchema,
+ PercentChangeInputSchema,
+]);
+export type PercentageInput=z.input<typeof PercentageInputSchema>;
+export type PercentageParsedInput=z.output<typeof PercentageInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
