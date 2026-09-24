@@ -79,6 +79,12 @@ export const MarkupInputSchema=z.object({
 }).strict();
 export type MarkupInput=z.input<typeof MarkupInputSchema>;
 export type MarkupParsedInput=z.output<typeof MarkupInputSchema>;
+export const RoiInputSchema=z.object({
+ cost:finite.positive(),
+ finalValue:nonNeg,
+}).strict();
+export type RoiInput=z.input<typeof RoiInputSchema>;
+export type RoiParsedInput=z.output<typeof RoiInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
