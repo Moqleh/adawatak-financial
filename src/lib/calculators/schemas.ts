@@ -73,6 +73,12 @@ export const MarginInputSchema=z.object({
 }).strict();
 export type MarginInput=z.input<typeof MarginInputSchema>;
 export type MarginParsedInput=z.output<typeof MarginInputSchema>;
+export const MarkupInputSchema=z.object({
+ cost:finite.positive(),
+ sellingPrice:nonNeg,
+}).strict();
+export type MarkupInput=z.input<typeof MarkupInputSchema>;
+export type MarkupParsedInput=z.output<typeof MarkupInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
