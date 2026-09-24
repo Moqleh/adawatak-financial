@@ -17,6 +17,21 @@ export const CompoundSavingsInputSchema=z.object({
 }).strict();
 export type CompoundSavingsInput=z.input<typeof CompoundSavingsInputSchema>;
 export type CompoundSavingsParsedInput=z.output<typeof CompoundSavingsInputSchema>;
+export const RetirementInputSchema=z.object({
+ currentSavings:nonNeg,
+ monthlyContribution:nonNeg,
+ expectedAnnualReturnPercent:signedRatePct,
+ inflationRatePercent:signedRatePct.default(2.5),
+ currentAge:z.number().int().min(18).max(100),
+ retirementAge:z.number().int().min(19).max(100),
+ targetMonthlySpending:nonNeg,
+ withdrawalRatePercent:finite.min(0.1).max(100).default(4),
+}).strict().refine((data)=>data.retirementAge>data.currentAge,{
+ message:'Retirement age must be strictly greater than current age',
+ path:['retirementAge'],
+});
+export type RetirementInput=z.input<typeof RetirementInputSchema>;
+export type RetirementParsedInput=z.output<typeof RetirementInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
