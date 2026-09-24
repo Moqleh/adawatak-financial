@@ -1,1 +1,0 @@
-# Adawatak Financial
