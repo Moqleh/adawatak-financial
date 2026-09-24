@@ -61,6 +61,12 @@ export const PercentageInputSchema=z.discriminatedUnion('mode',[
 ]);
 export type PercentageInput=z.input<typeof PercentageInputSchema>;
 export type PercentageParsedInput=z.output<typeof PercentageInputSchema>;
+export const DiscountInputSchema=z.object({
+ originalPrice:nonNeg,
+ discountPercent:ratePct,
+}).strict();
+export type DiscountInput=z.input<typeof DiscountInputSchema>;
+export type DiscountParsedInput=z.output<typeof DiscountInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
