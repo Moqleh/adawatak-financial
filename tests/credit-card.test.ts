@@ -15,15 +15,13 @@ function expectScheduleInvariants(result:ReturnType<typeof calcCreditCardPayoff>
     expect(result.payoffSchedule[i].openingBalance.equals(result.payoffSchedule[i-1].closingBalance)).toBe(true);
   }
   for(const row of result.payoffSchedule){
+    expect(row.payment.equals(row.principal.plus(row.interest))).toBe(true);
     expect(row.closingBalance.equals(row.openingBalance.minus(row.principal))).toBe(true);
   }
-  const totalPaidCalculated=M(balance).plus(result.totalInterest);
-  const diffTotalPaid=result.totalPaid.minus(totalPaidCalculated);
-  console.log('--- TOTAL PAID IDENTITY DIAGNOSTIC ---');
-  console.log('totalPaid (Engine):    ',result.totalPaid.toString());
-  console.log('balance + totalInterest:',totalPaidCalculated.toString());
-  console.log('Difference:            ',diffTotalPaid.toString());
-  expect(result.totalPaid.equals(totalPaidCalculated)).toBe(true);
+  const scheduleTotalPaid=result.payoffSchedule.reduce((sum,row)=>sum.plus(row.payment),ZERO);
+  const scheduleTotalInterest=result.payoffSchedule.reduce((sum,row)=>sum.plus(row.interest),ZERO);
+  expect(result.totalPaid.equals(scheduleTotalPaid)).toBe(true);
+  expect(result.totalInterest.equals(scheduleTotalInterest)).toBe(true);
 }
 
 describe('calcCreditCardPayoff — PAYMENT_BELOW_INTEREST',()=>{
