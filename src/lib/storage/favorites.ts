@@ -1,0 +1,4 @@
+import type{ToolId}from'@/lib/tools/registry';const KEY='adawatak:v1:favorites';type Store={schemaVersion:1;writtenAt:string;data:ToolId[]};
+function read():Store{if(typeof window==='undefined')return{schemaVersion:1,writtenAt:new Date(0).toISOString(),data:[]};try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.schemaVersion===1&&Array.isArray(x.data))return x}catch{}return{schemaVersion:1,writtenAt:new Date(0).toISOString(),data:[]}}
+function write(data:ToolId[]){localStorage.setItem(KEY,JSON.stringify({schemaVersion:1,writtenAt:new Date().toISOString(),data} satisfies Store))}
+export const getFavorites=()=>read().data;export const isFavorite=(id:ToolId)=>read().data.includes(id);export function addFavorite(id:ToolId){write([...new Set([...read().data,id])])}export function removeFavorite(id:ToolId){write(read().data.filter(x=>x!==id))}

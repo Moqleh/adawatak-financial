@@ -1,0 +1,1 @@
+'use client';import {useLocale} from 'next-intl';import {Link,usePathname} from '@/i18n/navigation';export default function LanguageSwitcher(){const locale=useLocale();const pathname=usePathname();const next=locale==='ar'?'en':'ar';return <Link className="lang" href={pathname} locale={next}>{next==='ar'?'العربية':'English'}</Link>}
