@@ -32,6 +32,13 @@ export const RetirementInputSchema=z.object({
 });
 export type RetirementInput=z.input<typeof RetirementInputSchema>;
 export type RetirementParsedInput=z.output<typeof RetirementInputSchema>;
+export const InflationInputSchema=z.object({
+ amount:nonNeg,
+ inflationRatePercent:ratePct,
+ years:z.number().int().positive().max(100),
+}).strict();
+export type InflationInput=z.input<typeof InflationInputSchema>;
+export type InflationParsedInput=z.output<typeof InflationInputSchema>;
 export const VatInputSchema=z.discriminatedUnion('mode',[
  z.object({mode:z.literal('add'),netAmount:nonNeg,ratePercent:ratePct}),
  z.object({mode:z.literal('remove'),grossAmount:nonNeg,ratePercent:ratePct})
