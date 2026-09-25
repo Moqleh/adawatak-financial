@@ -24,10 +24,10 @@ describe('ROI Calculator Engine - Structural Invariants Suite',()=>{
   it('should correctly serialize results using toRoiDTO',()=>{
    const input=RoiInputSchema.parse({cost:200,finalValue:300});
    const dto=toRoiDTO(calcRoi(input));
-   expect(dto.cost).toBe('200');
-   expect(dto.finalValue).toBe('300');
-   expect(dto.netProfit).toBe('100');
-   expect(dto.roiPercent).toBe('50');
+   expect(dto.cost).toBe('200.00');
+   expect(dto.finalValue).toBe('300.00');
+   expect(dto.netProfit).toBe('100.00');
+   expect(dto.roiPercent).toBe('50.00');
   });
  });
 
