@@ -1,7 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import {calcCreditCardPayoff} from '../src/lib/calculators/credit-card/engine';
 import {CreditCardPayoffInputSchema} from '../src/lib/calculators/credit-card/schema';
-import {CalculatorError} from '../src/lib/calculators/errors';
 import {M,ONE,ZERO} from '../src/lib/money';
 
 const balance=12000;
