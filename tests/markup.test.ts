@@ -24,10 +24,10 @@ describe('Markup Calculator Engine - Structural Invariants Suite',()=>{
   it('should correctly serialize results using toMarkupDTO',()=>{
    const input=MarkupInputSchema.parse({cost:50,sellingPrice:75});
    const dto=toMarkupDTO(calcMarkup(input));
-   expect(dto.cost).toBe('50');
+   expect(dto.cost).toBe('50.00');
    expect(dto.sellingPrice).toBe('75');
    expect(dto.profit).toBe('25');
-   expect(dto.markupPercent).toBe('50');
+   expect(dto.markupPercent).toBe('50.00');
   });
  });
 
