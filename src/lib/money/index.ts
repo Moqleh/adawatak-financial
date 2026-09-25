@@ -7,9 +7,9 @@ export const M=(v:Decimal.Value):Money=>new Decimal(v);
 export const ZERO=new Decimal(0);
 export const ONE=new Decimal(1);
 export type MoneyDTO=string;
-export const toDTO=(v:Money):MoneyDTO=>v.toFixed();
+export const toDTO=(v:Money):MoneyDTO=>v.toDecimalPlaces(2,Decimal.ROUND_HALF_EVEN).toFixed(2);
 export const fromDTO=(v:MoneyDTO|number):Money=>new Decimal(v);
-export const DISPLAY={currency:2,percent:4,rate:6} as const;
+export const DISPLAY={currency:2,percent:2,rate:2} as const;
 export const TOLERANCE=new Decimal('0.01');
 export function formatCurrency(v:Money,decimals=DISPLAY.currency){return v.toDecimalPlaces(decimals,Decimal.ROUND_HALF_EVEN).toFixed(decimals)}
 export function formatPercent(v:Money,decimals=DISPLAY.percent){return v.toDecimalPlaces(decimals,Decimal.ROUND_HALF_EVEN).toFixed(decimals)}
