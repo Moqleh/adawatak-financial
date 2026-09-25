@@ -23,9 +23,12 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
-      - name: Temporarily exclude server-only API route for static preview
-        run: mv src/app/api/market/quote/route.ts /tmp/market-quote-route.ts
-      - run: npm run build
+      - name: Remove server-only API route for static Pages preview
+        run: rm src/app/api/market/quote/route.ts
+      - name: Build static Pages preview
+        run: npm run build
+        env:
+          PAGES_BUILD: 'true'
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
