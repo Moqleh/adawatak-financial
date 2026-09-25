@@ -43,8 +43,8 @@ describe('Margin Calculator Engine - Structural Invariants Suite', () => {
 
       expect(dto.cost).toBe('80.00');
       expect(dto.sellingPrice).toBe('100.00');
-      expect(dto.profit).toBe('20');
-      expect(dto.marginPercent).toBe('20');
+      expect(dto.profit).toBe('20.00');
+      expect(dto.marginPercent).toBe('20.00');
     });
   });
 
