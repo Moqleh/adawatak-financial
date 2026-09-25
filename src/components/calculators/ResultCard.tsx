@@ -1,2 +1,3 @@
 import type{ReactNode}from'react';
-export function ResultCard({label,value,note}:{label:string;value:ReactNode;note?:string}){return <div className="result-card"><span>{label}</span><strong>{value}</strong>{note&&<small>{note}</small>}</div>}
+function formatNumericValue(value:ReactNode){if(typeof value!=='string'&&typeof value!=='number')return value;const raw=String(value).trim();if(!/^-?\d+(?:\.\d+)?$/.test(raw))return value;const [whole,decimal]=raw.split('.');const grouped=whole.replace(/\B(?=(\d{3})+(?!\d))/g,',');return decimal===undefined?grouped:`${grouped}.${decimal}`}
+export function ResultCard({label,value,note}:{label:string;value:ReactNode;note?:string}){return <div className="result-card"><span>{label}</span><strong>{formatNumericValue(value)}</strong>{note&&<small>{note}</small>}</div>}
