@@ -29,7 +29,11 @@ jobs:
         run: npm run build
         env:
           PAGES_BUILD: 'true'
+      - name: Add repository-root redirect
+        run: printf '%s' '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./ar/"><title>أدواتك المالية</title></head><body><a href="./ar/">فتح أدواتك المالية</a></body></html>' > out/index.html
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
