@@ -44,8 +44,8 @@ describe('Discount Calculator Engine - Structural Invariants Suite', () => {
       const dto = toDiscountDTO(result);
 
       expect(dto.originalPrice).toBe('100.00');
-      expect(dto.discountPercent).toBe('20');
-      expect(dto.discountAmount).toBe('20');
+      expect(dto.discountPercent).toBe('20.00');
+      expect(dto.discountAmount).toBe('20.00');
       expect(dto.finalPrice).toBe('80.00');
     });
   });
