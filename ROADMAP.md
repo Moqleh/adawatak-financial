@@ -1,19 +1,15 @@
 # ROADMAP
 
-## Completed
-- Calculator engine hardening and tested UIs.
-- Gold manual calculator and Zakat calculator.
-- VAT add/extract and credit-card target-timeframe mode.
-- Advanced retirement, compound-savings and auto-finance inputs.
+## V1.0 — complete scope
+- Financial calculator suite and tested engines.
 - AR/EN navigation and responsive calculator styling.
-- Local favorites, practical guides and legal/privacy pages.
-- Reference FX rates and currency converter without private credentials.
-- SEO metadata, robots and sitemap.
-- GitHub Pages CI/deployment pipeline.
+- Gold manual calculator and Zakat calculator.
+- Reference FX rates and currency converter.
+- Market reference hub for Gold, TASI/S&P 500 and representative stock routes with transparent outbound-source links.
+- Local favorites, guides, legal/privacy pages, SEO and GitHub Pages deployment.
 
-## Final external activation
-- Select a licensed provider for Gold, Stocks and Indices.
-- Add provider credentials only as server-side environment secrets.
-- Activate provider adapters/API routes.
-- Verify source, timestamp, delayed/live status, exchange identity, bid/ask semantics and redistribution rights.
-- Run final production visual smoke test on a server-capable host if secret-backed live data is required.
+## Post-V1 optional enhancements
+- Licensed live/delayed Gold, Stock and Index provider.
+- Secret-backed Cloudflare Worker or other serverless proxy.
+- Historical charts where licensing permits redistribution.
+- Cloud accounts/favorites, alerts, portfolio and notifications only if product need justifies them.

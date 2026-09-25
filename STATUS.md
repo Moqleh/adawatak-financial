@@ -1,28 +1,24 @@
 # STATUS
 
 ## Overall
-Estimated completion: 94%
+Estimated completion: 99% — V1 feature scope complete; awaiting CI and GitHub Pages verification for the final release commit.
 
-## Completed
-- Public GitHub Pages preview with Arabic and English routes.
+## V1 scope completed
+- Public GitHub Pages application with Arabic and English routes.
 - Next.js 16 / React 19 / TypeScript foundation.
-- Decimal-based, tested calculator engines.
-- Working calculator UI: personal loan, mortgage, auto finance, credit card (fixed payment and target timeframe), compound savings, retirement/FIRE, inflation, percentage, discount, margin, markup, ROI, VAT add/extract, Gold/jewelry manual calculator, and Zakat calculator.
-- Advanced inputs for auto finance, compound savings and retirement assumptions.
-- Real tools directory, direct home links, local favorites, guides, About, Privacy and Disclaimer pages.
-- Latest daily reference FX rates and currency conversion through Frankfurter with explicit source/date disclosure.
-- MarketQuote/provider contracts, cache/stale semantics, source/status helpers and server quote boundary for future market provider integration.
-- Gold, currencies, converter, markets and exchange-aware stock routes.
-- SEO metadata, sitemap and robots.
-- GitHub Actions CI gates: npm ci, lint, typecheck, tests, build.
-- Dedicated GitHub Pages workflow; duplicate Pages workflow removed.
+- Decimal-based, tested calculator engines and complete calculator UI set.
+- Local favorites, guides, About, Privacy and Disclaimer pages.
+- Daily reference FX rates and conversion through Frankfurter with source/date disclosure.
+- Gold, Stocks and Indices converted to a reference-hub model for V1: no fabricated or unlicensed intraday values; trusted external source links are shown instead.
+- Gold/jewelry manual calculator remains fully available for user-entered reference prices.
+- SEO metadata, sitemap, robots and GitHub Actions quality/deployment pipeline.
 
-## Remaining external blocker
-- Live/delayed Gold, Stocks and Indices require an approved market-data provider, valid credentials, and redistribution rights. GitHub Pages cannot securely host private provider secrets or server-side proxy logic.
+## V1 release rule
+V1 is considered complete without embedded intraday Gold/Stock/Index quotes. Those are an optional future enhancement that requires a licensed data provider and a secret-capable backend/serverless proxy.
 
 ## Product decisions
 - No fabricated market prices.
-- Stale data must be explicitly marked with its original source timestamp.
+- External market references are explicitly labeled and open in a separate tab.
 - Currency values are daily reference rates, not bank buy/sell or intraday trading quotes.
-- No authentication/database is required for V1; favorites/preferences are local to the browser.
-- GitHub Pages is the public static preview. A server-capable host is required for secret-backed live market APIs.
+- No authentication/database is required for V1; favorites/preferences are browser-local.
+- GitHub Pages remains the zero-server-cost V1 host.

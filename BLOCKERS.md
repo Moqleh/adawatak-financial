@@ -1,10 +1,7 @@
 # BLOCKERS
 
-## Active
-1. **Gold / stocks / indices live-market provider credentials and redistribution rights** — no approved market-data credential is configured. Those sections cannot truthfully display live or delayed trading quotes until a licensed provider is selected and its secret is added to a server-capable host.
+## V1
+None. V1 intentionally uses a static/reference architecture for Gold, Stocks and Indices and does not require private market-data credentials.
 
-## Resolved
-- Currency reference rates no longer require credentials: the public Frankfurter v2 API is used client-side for latest daily reference FX rates with source/date disclosure.
-
-## Not blockers
-- All calculator development, local favorites, static GitHub Pages preview, SEO, documentation and reference-rate currency conversion continue without private credentials.
+## Post-V1 optional activation
+Embedding live/delayed Gold, Stock and Index quotes requires a licensed provider, redistribution rights and a secret-capable backend/serverless proxy. This is not a V1 release blocker.
