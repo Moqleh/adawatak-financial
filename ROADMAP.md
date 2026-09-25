@@ -1,20 +1,19 @@
 # ROADMAP
 
-## P0 — Release blockers
-- Select and configure licensed market-data provider(s) for Gold, FX, Stocks and Indices.
-- Connect server-side adapters and quote endpoints without exposing secrets.
-- Finish Gold and FX live pages and conversion logic.
-- Finish Markets/Stocks live quote presentation.
-- Keep all CI gates green.
+## Completed
+- Calculator engine hardening and tested UIs.
+- Gold manual calculator and Zakat calculator.
+- VAT add/extract and credit-card target-timeframe mode.
+- Advanced retirement, compound-savings and auto-finance inputs.
+- AR/EN navigation and responsive calculator styling.
+- Local favorites, practical guides and legal/privacy pages.
+- Reference FX rates and currency converter without private credentials.
+- SEO metadata, robots and sitemap.
+- GitHub Pages CI/deployment pipeline.
 
-## P1 — Product completion
-- Gold/jewelry calculator.
-- Zakat methodology, engine, tests and UI.
-- Complete VAT add/remove UX and credit-card target-timeframe UX.
-- Responsive AR/EN visual QA and reference-design alignment.
-- Accessibility, error/empty/loading states, source/timestamp/disclaimer UX.
-
-## P2 — Release quality
-- SEO metadata, sitemap/robots, security headers and performance review.
-- README operations/deployment documentation.
-- Production deployment, HTTPS/domain verification and public smoke test.
+## Final external activation
+- Select a licensed provider for Gold, Stocks and Indices.
+- Add provider credentials only as server-side environment secrets.
+- Activate provider adapters/API routes.
+- Verify source, timestamp, delayed/live status, exchange identity, bid/ask semantics and redistribution rights.
+- Run final production visual smoke test on a server-capable host if secret-backed live data is required.
