@@ -1,41 +1,37 @@
 # Adawatak Financial | أدواتك المالية
 
-Bilingual AR/EN financial calculators and market-reference platform built with Next.js 16, React 19 and TypeScript.
+Bilingual Arabic/English financial tools built with Next.js, React and TypeScript.
 
-## Public V1
+## Quality rules
 
-GitHub Pages: https://moqleh.github.io/adawatak-financial/
+- Financial calculators use tested calculation engines and decimal-safe money helpers.
+- Market data must identify its source and update state.
+- The UI must not describe fabricated or unverified values as live.
+- Stale or unavailable market data is labeled explicitly.
+- Arabic and English routes are generated separately.
 
-V1 is intentionally serverless/static. Financial calculators run in the browser, currency reference rates use Frankfurter, and Gold/Stock/Index pages act as a transparent reference hub with outbound links to external market sources instead of republishing unlicensed intraday values.
-
-## Local development
+## Development
 
 ```bash
 npm ci
-npm run dev
-```
-
-## Quality gates
-
-```bash
 npm run lint
 npm run typecheck
 npm test
 npm run build
 ```
 
-CI runs install, lint, typecheck, tests and build on pushes to `main`.
+CI runs linting, TypeScript checks, automated calculator tests and a production build. GitHub Pages deployment additionally verifies the static export.
 
-## Financial-data policy
+## Market data
 
-- Market prices are never fabricated.
-- Latest currency reference rates use Frankfurter v2 and display the source date.
-- Currency rates are reference rates, not bank buy/sell or intraday trading quotes.
-- Gold, Stock and Index V1 pages use clearly labeled external references rather than embedded unlicensed live/delayed quotes.
-- If secret-backed market data is added after V1, keys must remain server-side and redistribution rights must be verified first.
+Currency reference rates currently use Frankfurter's public reference-rate API. Gold reference data uses XAUS in the client experience. Market indices are linked to authoritative/external references rather than republished as intraday values without a configured licensed provider.
 
-## Privacy
+The server-side market abstraction under `src/lib/market` is designed for provider adapters, cache/stale state and source metadata. Do not add hardcoded market prices.
 
-No account is required in V1. Calculator values remain in the browser. Favorites are stored locally in localStorage.
+## Hosting
 
-See `STATUS.md`, `ROADMAP.md`, `BLOCKERS.md` and `CHANGELOG.md` for release state.
+The current public preview is deployed to GitHub Pages. Set `NEXT_PUBLIC_SITE_URL` to the canonical production origin when a custom domain is selected. GitHub Pages builds set `PAGES_BUILD=true` to enable the repository base path and static export.
+
+## Disclaimer
+
+Calculations and reference data are provided for general educational/informational purposes and are not financial, investment, tax, legal, or religious advice.
