@@ -1,2 +1,3 @@
 export type SummaryRow={label:string;value:string};
-export function ResultSummaryTable({rows,caption}:{rows:SummaryRow[];caption?:string}){return <table className="result-summary">{caption&&<caption>{caption}</caption>}<tbody>{rows.map(row=><tr key={row.label}><th scope="row">{row.label}</th><td>{row.value}</td></tr>)}</tbody></table>}
+function formatNumericValue(value:string){const raw=value.trim();if(!/^-?\d+(?:\.\d+)?$/.test(raw))return value;const [whole,decimal]=raw.split('.');const grouped=whole.replace(/\B(?=(\d{3})+(?!\d))/g,',');return decimal===undefined?grouped:`${grouped}.${decimal}`}
+export function ResultSummaryTable({rows,caption}:{rows:SummaryRow[];caption?:string}){return <table className="result-summary">{caption&&<caption>{caption}</caption>}<tbody>{rows.map(row=><tr key={row.label}><th scope="row">{row.label}</th><td>{formatNumericValue(row.value)}</td></tr>)}</tbody></table>}
