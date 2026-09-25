@@ -3,6 +3,8 @@
 ## Overall
 Completion: 100% for the defined V1.0 static GitHub Pages scope.
 
+Release version: 1.0.0.
+
 ## Release verification
 - Pull Request #2 merged to main.
 - CI on main passed: install, lint, typecheck, tests and production build.
