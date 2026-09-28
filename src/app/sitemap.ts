@@ -6,5 +6,5 @@ export default function sitemap():MetadataRoute.Sitemap{
  const fixed=['','/tools','/favorites','/gold','/currencies','/currency-converter','/markets','/about','/privacy','/disclaimer','/guides'];
  const toolPaths=tools.map(t=>toolHref(t.id)).filter(path=>!fixed.includes(path));
  const paths=[...fixed,...toolPaths];
- return['ar','en'].flatMap(locale=>paths.map(path=>({url:`${base}/${locale}${path}/`,changeFrequency:path===''?'weekly' as const:'monthly' as const,priority:path===''?1:path==='/tools'?.8:.6})));
+ return['ar','en'].flatMap(locale=>paths.map(path=>({url:`${base}/${locale}${path}/`,changeFrequency:path===''?'weekly' as const:'monthly' as const,priority:path===''?1:path==='/tools'?.8:.6,lastModified:new Date('2026-09-29')})));
 }
