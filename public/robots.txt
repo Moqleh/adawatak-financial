@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moqleh.github.io/adawatak-financial/sitemap.xml
