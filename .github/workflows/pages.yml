@@ -31,6 +31,8 @@ jobs:
           PAGES_BUILD: 'true'
       - name: Add repository-root redirect
         run: printf '%s' '<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=./ar/"><title>أدواتك المالية</title></head><body><a href="./ar/">فتح أدواتك المالية</a></body></html>' > out/index.html
+      - name: Verify SEO files in Pages artifact
+        run: test -s out/sitemap.xml && test -s out/robots.txt
       - uses: actions/configure-pages@v5
         with:
           enablement: true
@@ -47,3 +49,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify public SEO endpoints
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --retry 6 --retry-all-errors --retry-delay 5 "${SITE_URL%/}/sitemap.xml" | grep -Fq '<urlset'
+          curl --fail --silent --show-error --location --retry 6 --retry-all-errors --retry-delay 5 "${SITE_URL%/}/robots.txt" | grep -Fq 'Sitemap:'
