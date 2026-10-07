@@ -1,0 +1,2 @@
+export async function generateMetadata({params}:{params:Promise<{locale:string}>}){const{locale}=await params;const base=(process.env.NEXT_PUBLIC_SITE_URL??'https://moqleh.github.io/adawatak-financial').replace(/\/$/,'');const canonical=base+'/'+locale+'/markets/';return{alternates:{canonical,languages:{ar:base+'/ar/markets/',en:base+'/en/markets/','x-default':base+'/ar/markets/'}},openGraph:{url:canonical}};}
+export default function MarketsLayout({children}:{children:React.ReactNode}){return children;}
